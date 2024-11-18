@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Website settings{% endblock %}
+
+{% block heading %}
+    {% with heading_content="Website settings" %}
+        {% include "heading.html" %}
+    {% endwith %}
+{% endblock %}
+
+{% block main %}
+    <h5 class="gray-text"><u>Name of the organization</u></h5>
+    <form method="post" action="{{ url_for('pages.set_org_name') }}">
+        {{ org_form.csrf_token(id=False) }}
+
+        <div class="form-group">
+            {{ org_form.name.label }}
+            {{ org_form.name(class="form-control two-line-input") }}
+        </div>
+
+        <div class="form-group mb-4">
+            <button type="submit" class="btn btn-dark"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+        </div>
+    </form>
+    <hr>
+    <div class="d-flex align-items-center">
+    <h5 class="gray-text"><u>Favicon settings</u></h5>
+    {% if favicon_exits %}
+        <img src="{{ url_for('pages.favicon') }}" alt="Current icon" class="ms-4 img-fluid" style="max-width: 100px;"/>
+    {% endif %}
+    </div>
+
+    <form method="post" enctype="multipart/form-data" action="{{ url_for('pages.set_favicon') }}">
+        {{ icon_form.csrf_token(id=False) }}
+
+        <div class="form-group">
+            {{ icon_form.icon.label(class="mb-1") }}
+            {{ icon_form.icon(class="form-control") }}
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-dark" style="float: left"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+        </div>
+    </form>
+
+    {% if favicon_exits %}
+        <form class="mb-4" method="post" action="{{ url_for('pages.delete_favicon') }}" onsubmit="return confirm('Are you sure you wish to delete the favicon?')">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="btn btn-danger ms-2"><i class="fas fa-trash"></i> Delete favicon</button>
+        </form>
+    {% endif %}
+    <hr>
+    <h5 class="gray-text"><u>Welcome text settings</u></h5>
+    <form method="post" class="mb-4" action="{{ url_for('pages.set_welcome_text') }}">
+        {{ welcome_form.csrf_token(id=False) }}
+        {{ welcome_form.text.label }}
+        <div class="form-group">
+            {{ welcome_form.text(class="form-control no-resize") }}
+        </div>
+        <button type="submit" class="btn btn-dark"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+    </form>
+
+{% endblock %}

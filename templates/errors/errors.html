@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Hibák{% endblock %}
+
+{% block main %}
+    {% if errors %}
+        <div class="my-2">
+            <form class="form">
+                <input type="hidden" name="delete" value="_">
+                <button type="submit" class="btn btn-primary-dark"><i class="fas fa-trash"></i> Delete</button>
+            </form>
+        </div>
+        <div class="text-break p-3">{{ errors | safe_br }}</div>
+    {% else %}
+        <div class="mt-2 text-center">No errors :)</div>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block title %}{{ name }}{% endblock %}
+
+{% block main %}
+    <div class="text-center">
+    <h1 class="my-2">{{ name }}</h1>
+    <a href="{{ url_for("pages.home") }}" class="btn btn-dark"><i class="fa-solid fa-house"></i> Back to home</a>
+    </div>
+{% endblock %}

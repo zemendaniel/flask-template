@@ -1,0 +1,23 @@
+<div class="post">
+    <div class="small-text gray-text">
+        Author: {{ post.author.name }}
+    </div>
+
+    <div class="d-flex" style="font-size: 0.95rem">
+        {% if is_admin() %}
+            {% if not request.endpoint == 'posts.view' %}
+                <a href="{{ url_for('posts.view', post_id=post.id) }}" class="btn btn-secondary me-1"><i class="fa-regular fa-eye"></i> View</a>
+            {% endif %}
+
+            <a href="{{ url_for('posts.edit', post_id=post.id) }}" class="btn btn-dark me-1"><i class="fas fa-edit"></i> Edit</a>
+            <form action="{{ url_for('posts.delete', post_id=post.id) }}" method="post"
+                  onsubmit='return confirm("Are you sure you wish to delete the post?")'>
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="btn btn-primary-dark"><i class="fas fa-trash"></i> Delete</button>
+            </form>
+        {% endif %}
+    </div>
+
+    <hr class="mb-3">
+    <div class="text-break lh-base" style="font-size: 1.1em; letter-spacing: 1px"> {{ post.content | safe_br }} </div>
+</div>

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Users{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block before_main %}
+    <button type="button" class="btn btn-dark btn-floating btn-lg" id="scrollToTopButton" onclick="backToTop()">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+{% endblock %}
+
+{% block main %}
+{% for user in users %}
+    {% if not (user.is_super_admin or user.id == g.user.id) %}
+        <div class="user p-4 my-3">
+            <h5 class="user-name">{{ user.name }}</h5>
+            {% do role_form.set_role(user.role) %}
+            {% do role_form.set_user_id(user.id) %}
+
+            <form method="post" onsubmit="return confirm('Are you sure you wish to change the role of {{ user.name }}?')">
+                {{ role_form.csrf_token() }}
+                {{ role_form.role(class="form-control") }}
+                {{ role_form.user_id() }}
+                <div style="float: left">
+                    <button type="submit" class=" btn btn-primary-dark mt-3">
+                        <i class="fa-solid fa-floppy-disk"></i> Save
+                    </button>
+                </div>
+            </form>
+
+            <form action="{{ url_for('users.delete', user_id=user.id) }}" method="post"
+                  onsubmit='return confirm("Are you sure you wish to delete {{ user.name }}?")' class="d-inline">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                     <button id="torles"  type="submit" class=" btn btn-secondary mx-2 mt-3">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+            </form>
+
+        </div>
+    {% endif %}
+{% endfor %}
+{% endblock %}
+

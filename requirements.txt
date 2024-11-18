@@ -1,0 +1,12 @@
+Flask
+MarkupSafe
+itsdangerous
+Werkzeug
+click
+python-dotenv
+alchemical
+SQLAlchemy
+flask-wtf
+wtforms
+flask-minify
+gunicorn
